@@ -1,7 +1,6 @@
 D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\bin\Release\bézier_curve.exe.config
 D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\bin\Release\bézier_curve.exe
 D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\bin\Release\bézier_curve.pdb
-D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\obj\Release\bézier_curve.csprojResolveAssemblyReference.cache
 D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\obj\Release\MainWindow.g.cs
 D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\obj\Release\App.g.cs
 D:\Drarig29\Documents\Visual Studio 2015\Projects\bézier_curve\bézier_curve\obj\Release\bézier_curve_MarkupCompile.cache

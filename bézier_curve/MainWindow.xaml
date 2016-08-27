@@ -11,8 +11,8 @@
         MouseLeave="mainWindow_MouseLeave" x:Name="mainWindow">
 
     <Canvas x:Name="area">
-        <Line x:Name="line01" Stroke="Black"/>
-        <Line x:Name="line23" Stroke="Black"/>
+        <Line x:Name="line01" Stroke="Black"/> <!-- The black line between h0 and h1 -->
+        <Line x:Name="line23" Stroke="Black"/> <!-- The black line between h2 and h3 -->
 
         <Ellipse x:Name="h0" Canvas.Left="88" Canvas.Top="241" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle0_PreviewMouseLeftButtonDown"/>
         <Ellipse x:Name="h1" Canvas.Left="145" Canvas.Top="129" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle1_PreviewMouseLeftButtonDown"/>

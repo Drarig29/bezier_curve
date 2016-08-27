@@ -9,25 +9,37 @@ namespace bézier_curve {
 
     public partial class MainWindow : Window {
 
+        //For more informations, see https://medium.freecodecamp.com/nerding-out-with-bezier-curves-6e3c0bc48e2f#.z2x0xyy6l
+
         Point p0, p1, p2, p3;
 
+        /// <summary>
+        /// A Canvas containing only the points of the curve. It makes it easier to clear just the curve and not the handles...
+        /// </summary>
         Canvas curve = new Canvas() { Background = new SolidColorBrush(Colors.Transparent) };
 
         public MainWindow() {
             InitializeComponent();
 
+            //get the center location of each handle
             p0 = h0.GetCenter();
             p1 = h1.GetCenter();
             p2 = h2.GetCenter();
             p3 = h3.GetCenter();
 
+            //set the lines
             SetLines();
 
+            //add the curve's container to the area
             area.Children.Add(curve);
 
+            //draw the curve once on MainWindow initialization
             DrawCurve();
         }
 
+        /// <summary>
+        /// Sets the black lines between the handles 0/1 and 2/3.
+        /// </summary>
         private void SetLines() {
             line01.X1 = p0.X;
             line01.Y1 = p0.Y;
@@ -40,6 +52,9 @@ namespace bézier_curve {
             line23.Y2 = p3.Y;
         }
 
+        /// <summary>
+        /// Clears the old curve, and draws the new one, point by point.
+        /// </summary>
         public void DrawCurve() {
             curve.Children.Clear();
 
@@ -47,10 +62,16 @@ namespace bézier_curve {
                 DrawPoint(B(i, p0, p1, p2, p3));
         }
 
+        /// <summary>
+        /// Gets the <see cref="Point"/> at a specific time, given the handles.
+        /// </summary>
         public Point B(double t, params Point[] p) {
             return new Point(Bx(t, p), By(t, p));
         }
 
+        /// <summary>
+        /// Gets the x-coordinate of the point at a specific time, given the handles.
+        /// </summary>
         public double Bx(double t, params Point[] p) {
             return (Math.Pow(1 - t, 3) * p[0].X) +
                 (3 * Math.Pow(1 - t, 2) * t * p[1].X) +
@@ -58,6 +79,9 @@ namespace bézier_curve {
                 (Math.Pow(t, 3) * p[3].X);
         }
 
+        /// <summary>
+        /// Gets the y-coordinate of the point at a specific time, given the handles.
+        /// </summary>
         public double By(double t, params Point[] p) {
             return (Math.Pow(1 - t, 3) * p[0].Y) +
                 (3 * Math.Pow(1 - t, 2) * t * p[1].Y) +
@@ -65,28 +89,29 @@ namespace bézier_curve {
                 (Math.Pow(t, 3) * p[3].Y);
         }
 
+        /// <summary>
+        /// Draw a red <see cref="Point"/> on the <see cref="curve"/> Canvas.
+        /// </summary>
         public void DrawPoint(Point p) {
-            DrawPoint(p.X, p.Y, Color.FromRgb(255, 0, 0));
-        }
-
-        public void DrawPoint(double x, double y, Color c) {
             var rect = new Ellipse() {
-                Fill = new SolidColorBrush(c),
+                Fill = new SolidColorBrush(Colors.Red),
                 Width = 2,
                 Height = 2
             };
 
-            Canvas.SetLeft(rect, x);
-            Canvas.SetTop(rect, y);
+            Canvas.SetLeft(rect, p.X);
+            Canvas.SetTop(rect, p.Y);
 
             curve.Children.Add(rect);
         }
 
+        #region Drag and Drop logics
         bool h0_down = false;
         bool h1_down = false;
         bool h2_down = false;
         bool h3_down = false;
 
+        //when a handle is down, set its Fill property to Black
         private void handle0_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             h0_down = true;
             h0.Fill = Brushes.Black;
@@ -107,6 +132,7 @@ namespace bézier_curve {
             h3.Fill = Brushes.Black;
         }
 
+        //when the mouse moves and a handle is down, move this handle and update the lines and the curve
         private void mainWindow_PreviewMouseMove(object sender, MouseEventArgs e) {
             if (h0_down) {
                 Point p = e.GetPosition(this);
@@ -133,44 +159,62 @@ namespace bézier_curve {
             }
 
             if (h0_down | h1_down | h2_down | h3_down) {
+                //this statement resolves a bug with the handle 0 (h0), don't ask me why
                 if (Mouse.LeftButton != MouseButtonState.Pressed) ResetHandles();
+
                 SetLines();
                 DrawCurve();
             }
         }
-        
+
+        //when the mouse is up, reset handles
         private void mainWindow_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
             ResetHandles();
         }
 
+        //when the mouse leaves the window, reset handles
         private void mainWindow_MouseLeave(object sender, MouseEventArgs e) {
             ResetHandles();
         }
 
+        /// <summary>
+        /// Set the state of the handles to their default state.
+        /// </summary>
         private void ResetHandles() {
-            h0_down = false;
-            h1_down = false;
-            h2_down = false;
-            h3_down = false;
+            if (h0_down) {
+                h0.Fill = Brushes.Red;
+                h0_down = false;
+            }
 
-            h0.Fill = Brushes.Red;
-            h1.Fill = Brushes.Red;
-            h2.Fill = Brushes.Red;
-            h3.Fill = Brushes.Red;
+            if (h1_down) {
+                h1.Fill = Brushes.Red;
+                h1_down = false;
+            }
+
+            if (h2_down) {
+                h2.Fill = Brushes.Red;
+                h2_down = false;
+            }
+
+            if (h3_down) {
+                h3.Fill = Brushes.Red;
+                h3_down = false;
+            }
         }
+        #endregion
     }
 
-    public static class MyExtensions {
+    public static class EllipseExtensions {
 
         /// <summary>
-        /// Récupère le point correspondant au centre de l'<see cref="Ellipse"/>.
+        /// Gets the point corresponding to the center of the <see cref="Ellipse"/>.
         /// </summary>
         public static Point GetCenter(this Ellipse e) {
             return new Point(Canvas.GetLeft(e) + e.Width / 2, Canvas.GetTop(e) + e.Height / 2);
         }
 
         /// <summary>
-        /// Définit l'emplacement de l'<see cref="Ellipse"/> en fonction du centre donné.
+        /// Sets the location of the <see cref="Ellipse"/> according to the given center.
         /// </summary>
         public static void SetCenter(this Ellipse e, Point p) {
             Canvas.SetLeft(e, p.X - e.Width / 2);
