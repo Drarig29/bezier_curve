@@ -95,8 +95,8 @@ namespace bézier_curve {
         public void DrawPoint(Point p) {
             var rect = new Ellipse() {
                 Fill = new SolidColorBrush(Colors.Red),
-                Width = 2,
-                Height = 2
+                Width = 3,
+                Height = 3
             };
 
             Canvas.SetLeft(rect, p.X);
