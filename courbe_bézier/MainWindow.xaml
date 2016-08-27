@@ -1,0 +1,23 @@
+﻿<Window x:Class="bézier_curve.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:bézier_curve"
+        mc:Ignorable="d"
+        Title="Bézier curve" Height="350" Width="525"
+        PreviewMouseMove="mainWindow_PreviewMouseMove"
+        PreviewMouseLeftButtonUp="mainWindow_PreviewMouseLeftButtonUp"
+        MouseLeave="mainWindow_MouseLeave" x:Name="mainWindow">
+
+    <Canvas x:Name="area">
+        <Line x:Name="line01" Stroke="Black"/>
+        <Line x:Name="line23" Stroke="Black"/>
+        
+        <Ellipse x:Name="h0" Canvas.Left="50" Canvas.Top="120" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle0_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h1" Canvas.Left="100" Canvas.Top="50" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle1_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h2" Canvas.Left="200" Canvas.Top="50" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle2_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h3" Canvas.Left="250" Canvas.Top="100" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle3_PreviewMouseLeftButtonDown"/>
+    </Canvas>
+    
+</Window>
