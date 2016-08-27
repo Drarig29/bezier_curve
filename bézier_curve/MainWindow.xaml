@@ -13,11 +13,11 @@
     <Canvas x:Name="area">
         <Line x:Name="line01" Stroke="Black"/>
         <Line x:Name="line23" Stroke="Black"/>
-        
-        <Ellipse x:Name="h0" Canvas.Left="50" Canvas.Top="120" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle0_PreviewMouseLeftButtonDown"/>
-        <Ellipse x:Name="h1" Canvas.Left="100" Canvas.Top="50" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle1_PreviewMouseLeftButtonDown"/>
-        <Ellipse x:Name="h2" Canvas.Left="200" Canvas.Top="50" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle2_PreviewMouseLeftButtonDown"/>
-        <Ellipse x:Name="h3" Canvas.Left="250" Canvas.Top="100" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle3_PreviewMouseLeftButtonDown"/>
+
+        <Ellipse x:Name="h0" Canvas.Left="88" Canvas.Top="241" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle0_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h1" Canvas.Left="145" Canvas.Top="129" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle1_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h2" Canvas.Left="286" Canvas.Top="59" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle2_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h3" Canvas.Left="357" Canvas.Top="208" Width="6" Height="6" Fill="Red" PreviewMouseLeftButtonDown="handle3_PreviewMouseLeftButtonDown"/>
     </Canvas>
-    
+
 </Window>
