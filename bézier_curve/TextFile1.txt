@@ -1,17 +1,7 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
-
-namespace bézier_curve {
-
-    public partial class MainWindow : Window {
-
-        //For more informations, see https://medium.freecodecamp.com/nerding-out-with-bezier-curves-6e3c0bc48e2f#.z2x0xyy6l
+﻿//For more informations, see https://medium.freecodecamp.com/nerding-out-with-bezier-curves-6e3c0bc48e2f#.z2x0xyy6l
 
         Point p0, p1, p2, p3;
+        Point pTest;
 
         /// <summary>
         /// A Canvas containing only the points of the curve. It makes it easier to clear just the curve and not the handles...
@@ -24,6 +14,7 @@ namespace bézier_curve {
             //get the center location of each handle
             p0 = h0.GetCenter();
             p1 = h1.GetCenter();
+            pTest = hTest.GetCenter();
             p2 = h2.GetCenter();
             p3 = h3.GetCenter();
 
@@ -59,9 +50,10 @@ namespace bézier_curve {
             curve.Children.Clear();
 
             for (double i = 0; i < 1; i += 0.01)
-                DrawPoint(B(i, p0, p1, p2, p3));
+                DrawPoint(B(i, p0, p1, pTest, p2, p3));
         }
 
+        #region Maths
         /// <summary>
         /// Gets the <see cref="Point"/> at a specific time, given the handles.
         /// </summary>
@@ -69,25 +61,39 @@ namespace bézier_curve {
             return new Point(Bx(t, p), By(t, p));
         }
 
-        /// <summary>
-        /// Gets the x-coordinate of the point at a specific time, given the handles.
-        /// </summary>
         public double Bx(double t, params Point[] p) {
-            return (Math.Pow(1 - t, 3) * p[0].X) +
-                (3 * Math.Pow(1 - t, 2) * t * p[1].X) +
-                (3 * (1 - t) * Math.Pow(t, 2) * p[2].X) +
-                (Math.Pow(t, 3) * p[3].X);
+            var n = p.Length - 1; //i.e. with 4 elements in p (4 handles), the degree is 3 : it's a cubic-bézier curve !
+            var x = 0.0;
+
+            for (int i = 0; i <= n; i++)
+                x += C(i, n) * Math.Pow(1 - t, n - i) * Math.Pow(t, i) * p[i].X;
+
+            return x;
         }
 
-        /// <summary>
-        /// Gets the y-coordinate of the point at a specific time, given the handles.
-        /// </summary>
         public double By(double t, params Point[] p) {
-            return (Math.Pow(1 - t, 3) * p[0].Y) +
-                (3 * Math.Pow(1 - t, 2) * t * p[1].Y) +
-                (3 * (1 - t) * Math.Pow(t, 2) * p[2].Y) +
-                (Math.Pow(t, 3) * p[3].Y);
+            var n = p.Length - 1; //i.e. with 4 elements in p (4 handles), the degree is 3 : it's a cubic-bézier curve !
+            var y = 0.0;
+
+            for (int i = 0; i <= n; i++)
+                y += C(i, n) * Math.Pow(1 - t, n - i) * Math.Pow(t, i) * p[i].Y;
+
+            return y;
         }
+
+        public double C(int k, int n) {
+            return fact(n) / (fact(k) * fact(n - k));
+        }
+
+        public int fact(int n) {
+            var x = 1;
+
+            for (int i = 2; i < n + 1; i++)
+                x *= i;
+
+            return x;
+        }
+        #endregion
 
         /// <summary>
         /// Draw a red <see cref="Point"/> on the <see cref="curve"/> Canvas.
@@ -108,26 +114,32 @@ namespace bézier_curve {
         #region Drag and Drop logics
         bool h0_down = false;
         bool h1_down = false;
+        bool hTest_down = false;
         bool h2_down = false;
         bool h3_down = false;
 
         //when a handle is down, set its Fill property to Black
-        private void handle0_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void h0_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             h0_down = true;
             h0.Fill = Brushes.Black;
         }
 
-        private void handle1_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void h1_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             h1_down = true;
             h1.Fill = Brushes.Black;
         }
 
-        private void handle2_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void hTest_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+            hTest_down = true;
+            hTest.Fill = Brushes.Black;
+        }
+
+        private void h2_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             h2_down = true;
             h2.Fill = Brushes.Black;
         }
 
-        private void handle3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
+        private void h3_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             h3_down = true;
             h3.Fill = Brushes.Black;
         }
@@ -135,30 +147,36 @@ namespace bézier_curve {
         //when the mouse moves and a handle is down, move this handle and update the lines and the curve
         private void mainWindow_PreviewMouseMove(object sender, MouseEventArgs e) {
             if (h0_down) {
-                Point p = e.GetPosition(this);
+                var p = e.GetPosition(this);
                 h0.SetCenter(p);
                 p0 = h0.GetCenter();
             }
 
             if (h1_down) {
-                Point p = e.GetPosition(this);
+                var p = e.GetPosition(this);
                 h1.SetCenter(p);
                 p1 = h1.GetCenter();
             }
 
+            if (hTest_down) {
+                var p = e.GetPosition(this);
+                hTest.SetCenter(p);
+                pTest = hTest.GetCenter();
+            }
+
             if (h2_down) {
-                Point p = e.GetPosition(this);
+                var p = e.GetPosition(this);
                 h2.SetCenter(p);
                 p2 = h2.GetCenter();
             }
 
             if (h3_down) {
-                Point p = e.GetPosition(this);
+                var p = e.GetPosition(this);
                 h3.SetCenter(p);
                 p3 = h3.GetCenter();
             }
 
-            if (h0_down | h1_down | h2_down | h3_down) {
+            if (h0_down | h1_down | hTest_down | h2_down | h3_down) {
                 //this statement resolves a bug with the handle 0 (h0), don't ask me why
                 if (Mouse.LeftButton != MouseButtonState.Pressed) ResetHandles();
 
@@ -191,6 +209,11 @@ namespace bézier_curve {
                 h1_down = false;
             }
 
+            if (hTest_down) {
+                hTest.Fill = Brushes.Red;
+                hTest_down = false;
+            }
+
             if (h2_down) {
                 h2.Fill = Brushes.Red;
                 h2_down = false;
@@ -221,4 +244,3 @@ namespace bézier_curve {
             Canvas.SetTop(e, p.Y - e.Height / 2);
         }
     }
-}

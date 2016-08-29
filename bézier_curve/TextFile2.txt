@@ -13,14 +13,15 @@
     <Canvas x:Name="area">
         <!-- The black line between h0 and h1 -->
         <Line x:Name="line01" Stroke="Black" StrokeThickness="1.5"/>
-        
+
         <!-- The black line between h2 and h3 -->
         <Line x:Name="line23" Stroke="Black" StrokeThickness="1.5"/>
 
-        <Ellipse x:Name="h0" Canvas.Left="100" Canvas.Top="300" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="handle0_PreviewMouseLeftButtonDown"/>
-        <Ellipse x:Name="h1" Canvas.Left="150" Canvas.Top="80" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="handle1_PreviewMouseLeftButtonDown"/>
-        <Ellipse x:Name="h2" Canvas.Left="360" Canvas.Top="100" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="handle2_PreviewMouseLeftButtonDown"/>
-        <Ellipse x:Name="h3" Canvas.Left="450" Canvas.Top="230" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="handle3_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h0" Canvas.Left="100" Canvas.Top="300" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="h0_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h1" Canvas.Left="150" Canvas.Top="80" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="h1_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="hTest" Canvas.Left="257" Canvas.Top="202" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="hTest_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h2" Canvas.Left="360" Canvas.Top="100" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="h2_PreviewMouseLeftButtonDown"/>
+        <Ellipse x:Name="h3" Canvas.Left="450" Canvas.Top="230" Width="8" Height="8" Fill="Red" PreviewMouseLeftButtonDown="h3_PreviewMouseLeftButtonDown"/>
     </Canvas>
 
 </Window>
